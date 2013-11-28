@@ -31,7 +31,7 @@ ApplicationProcessManager::~ApplicationProcessManager() {
 
 bool ApplicationProcessManager::LaunchApplication(
         RuntimeContext* runtime_context,
-        const Application* application) {
+        const ApplicationData* application) {
   if (RunMainDocument(application))
     return true;
   // NOTE: For now we allow launching a web app from a local path. This may go
@@ -55,7 +55,7 @@ void ApplicationProcessManager::OnRuntimeRemoved(Runtime* runtime) {
 }
 
 bool ApplicationProcessManager::RunMainDocument(
-    const Application* application) {
+    const ApplicationData* application) {
   const Manifest* manifest = application->GetManifest();
   const base::DictionaryValue* dict = NULL;
   if (!manifest->GetDictionary(application_manifest_keys::kAppMainKey, &dict))
@@ -94,7 +94,7 @@ void ApplicationProcessManager::CloseMainDocument() {
 }
 
 bool ApplicationProcessManager::RunFromLocalPath(
-    const Application* application) {
+    const ApplicationData* application) {
   const Manifest* manifest = application->GetManifest();
   std::string entry_page;
   if (manifest->GetString(application_manifest_keys::kLaunchLocalPathKey,
